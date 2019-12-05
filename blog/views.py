@@ -4,7 +4,7 @@ from django.views import View
 from .models import Post
 from .forms import PostForm
 from django.views.generic import ListView
-from django.utils import timezone
+
 
 from django.http import Http404, HttpResponse
 
@@ -14,17 +14,19 @@ class PostListView(ListView):
 
     def head(self, *args, **kwargs):
         try:
-            post = self.get_queryset().latest('created_at')
+            post = self.get_queryset().latest('id')
         except Post.DoesNotExist:
             raise Http404
 
+
+
+        time = post.updated_at.strftime('%a, %d %b %Y %H:%M:%S GMT')
         response = HttpResponse()
-        # RFC 1123 date format
-        response['Last-Modified'] = post.created_at.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        response['Last-Modified'] = time
         return response
 
-    def delete(self, *args, **kwargs):
-        raise NotImplementedError
+
+
 
 
 post_list = PostListView.as_view()
