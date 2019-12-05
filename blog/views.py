@@ -3,6 +3,31 @@ from django.http import HttpResponse
 from django.views import View
 from .models import Post
 from .forms import PostForm
+from django.views.generic import ListView
+from django.utils import timezone
+
+from django.http import Http404, HttpResponse
+
+
+class PostListView(ListView):
+    model = Post
+
+    def head(self, *args, **kwargs):
+        try:
+            post = self.get_queryset().latest('created_at')
+        except Post.DoesNotExist:
+            raise Http404
+
+        response = HttpResponse()
+        # RFC 1123 date format
+        response['Last-Modified'] = post.created_at.strftime('%a, %d %b %Y %H:%M:%S GMT')
+        return response
+
+    def delete(self, *args, **kwargs):
+        raise NotImplementedError
+
+
+post_list = PostListView.as_view()
 
 
 def greeting_view(message):
