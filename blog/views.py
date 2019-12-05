@@ -9,7 +9,13 @@ class GreetingView(View):
     def get(self, *args, **kwargs):
         return HttpResponse(self.message)
 
+
 greeting = GreetingView.as_view()
 
+class MorningGreetingView(GreetingView):
+    message = 'Morning to ya'
 
+morning_greeting = MorningGreetingView.as_view()
+
+evening_greeting = GreetingView.as_view(message='Evening to ya')
 
