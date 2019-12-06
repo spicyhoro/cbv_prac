@@ -100,3 +100,12 @@ post_edit = EditFormView.as_view(
      form_class=PostForm,
      success_url='/',
      template_name='blog/post_form.html')
+'''
+def index(request):
+    qs = Post.objects.all()
+    return render(request, 'blog/post_list.html', {
+        'post_list':qs
+    })
+'''
+
+index = ListView.as_view(model=Post, allow_empty=True, paginate_by=1)
