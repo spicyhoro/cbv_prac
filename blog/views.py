@@ -1,11 +1,19 @@
-from django.shortcuts import render, get_object_or_404, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, get_object_or_404, resolve_url
 from django.http import HttpResponse
 from django.views import View
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm
-from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, WeekArchiveView,DayArchiveView, TodayArchiveView, DateDetailView
+from django.views.generic import (
+    ListView, DetailView,
+    ArchiveIndexView, YearArchiveView, MonthArchiveView,
+    WeekArchiveView,DayArchiveView, TodayArchiveView,DateDetailView,
+    CreateView, UpdateView, DeleteView,
+
+)
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from .forms import PostForm
 
 
 from django.http import Http404, HttpResponse
@@ -150,3 +158,21 @@ class PostDateDetailView(DateDetailView):
     model = Post
     date_field = 'created_at'
     month_format = '%m'
+
+class PostCreateView(CreateView):
+    model = Post
+    form_class = PostForm
+    # success_url = reverse_lazy('blog:post_index') 경로 변경 불가 detail로 이동하고싶다
+
+    def get_success_url(self):
+        return resolve_url('blog:post_detail', self.object.id)
+
+
+class PostUpdateView(UpdateView):
+    model = Post
+    form_class = PostForm
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:post_index')
