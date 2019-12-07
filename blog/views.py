@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.views import View
 from .models import Post
 from .forms import PostForm
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView, ArchiveIndexView, YearArchiveView, MonthArchiveView, WeekArchiveView,DayArchiveView, TodayArchiveView, DateDetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
@@ -100,12 +100,53 @@ post_edit = EditFormView.as_view(
      form_class=PostForm,
      success_url='/',
      template_name='blog/post_form.html')
-'''
-def index(request):
-    qs = Post.objects.all()
-    return render(request, 'blog/post_list.html', {
-        'post_list':qs
-    })
-'''
+
 
 index = ListView.as_view(model=Post, allow_empty=True, paginate_by=1)
+'''
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {
+        'object':post,
+        'post': post,
+    })
+'''
+class PostDetailView(DetailView):
+    model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dummy'] = 'Django'
+        return context
+
+
+post_detail = PostDetailView.as_view(model=Post)
+
+post_archive = ArchiveIndexView.as_view(model=Post, date_field='updated_at')
+
+class PostYearArchiveView(YearArchiveView):
+    model = Post
+    date_field = 'updated_at'
+
+class PostMonthArchiveView(MonthArchiveView):
+    model = Post
+    date_field = 'updated_at'
+    month_format = '%m'
+
+class PostWeekArchiveView(WeekArchiveView):
+    model = Post
+    date_field = 'updated_at'
+
+class PostDayArchiveView(DayArchiveView):
+    model = Post
+    date_field = 'updated_at'
+    month_format = '%m'
+
+class PostTodayArchiveView(TodayArchiveView):
+    model = Post
+    date_field = 'updated_at'
+
+class PostDateDetailView(DateDetailView):
+    model = Post
+    date_field = 'created_at'
+    month_format = '%m'

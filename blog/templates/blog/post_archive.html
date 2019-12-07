@@ -1,0 +1,19 @@
+
+
+<h3>등록된 포스팅의 년도 (모두 1월 1일)</h3>
+{% for date in date_list %}
+    <a href="{% url "blog:post_archive_year" date|date:"Y" %}">
+     {{ date|date:"Y" }} <!-- ex) 2017 -->
+    </a>
+
+{% endfor %}
+
+<h3>updated_at 역순으로 정렬된 전체 포스팅</h3>
+<ul>
+     {% for post in latest %}
+
+    <li>
+     {{ post }}
+     </li>
+     {% endfor %}
+</ul>

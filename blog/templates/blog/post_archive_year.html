@@ -1,0 +1,29 @@
+
+<h3>{{ year|date:"Y" }}</h3>
+
+{% for post in object_list %}
+ 		{{ post }}
+{% endfor %}
+
+<h4>레코드가 있는 월</h4>
+
+{% for date in date_list %}
+ 		<a href="{% url "blog:post_archive_month" date|date:"Y" date|date:"m" %}">
+        {{ date|date:"Y-m" }} <!-- ex) 2017-01 -->
+        </a>
+
+{% endfor %}
+
+<hr/>
+
+{% if previous_year %}
+		 <a href="{% url "blog:post_archive_year" previous_year|date:"Y" %}">
+				 {{ previous_year|date:"Y년" }}
+		 </a>
+{% endif %}
+
+{% if next_year %}
+		 <a href="{% url "blog:post_archive_year" next_year|date:"Y" %}">
+ 				{{ next_year|date:"Y년" }}
+		 </a>
+{% endif %}

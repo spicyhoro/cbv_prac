@@ -1,0 +1,30 @@
+<h3>{{ month|date:"Y년 m월" }}</h3>
+
+{% for date in date_list %}
+    {% url "blog:post_archive_day" date|date:"Y" date|date:"m" date|date:"d" %}
+
+    {{ date|date:"Y-m-d" }} <!-- ex) 2017-01-01 -->
+    </a>
+
+
+{% endfor %}
+
+<hr/>
+
+{% for post in object_list %}
+ {{ post.title }}
+{% endfor %}
+
+<hr/>
+
+{% if previous_month %}
+     <a href="{% url "blog:post_archive_month" previous_month|date:"Y" previous_month|date:"m" %}">   #인자를 순서 맞춰서 각자 뽑아줘야 url됨
+         {{ previous_month|date:"Y년 m월" }}
+ </a>
+{% endif %}
+
+{% if next_month %}
+     <a href="{% url "blog:post_archive_month" next_month|date:"Y" next_month|date:"m" %}">
+  		   {{ next_month|date:"Y년 m월" }}
+ </a>
+{% endif %}

@@ -1,0 +1,19 @@
+<h3>{{ day|date:"Y년 m월 d일" }}</h3>
+<ul>
+  {% for post in object_list %}
+<li>
+   {{ post }}
+</li>
+  {% endfor %}
+</ul>
+<hr/>
+
+<% if previous_day %>
+<a href="{% url "blog:post_archive_day" previous_day|date:"Y" previous_day|date:"m" previous_day|date:"d" %}">
+ {{ previous_day|date:"Y년 m월 d일" }}
+</a>
+
+<% if next_day %>
+<a href="{% url "blog:post_archive_day" next_day|date:"Y" next_day|date:"m" next_day|date:"d" %}">
+ {{ next_day|date:"Y년 m월 d일" }}
+</a>
