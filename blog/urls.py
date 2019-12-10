@@ -3,10 +3,10 @@ from . import views
 
 app_name='blog'
 urlpatterns = [
-    path('', views.greeting),
+    path('greeting/', views.greeting),
     path('morning/', views.morning_greeting),
     path('evening/', views.evening_greeting),
-    path('posts/', views.index, name='post_index'),
+    path('', views.index, name='post_index'),
     path('<int:pk>', views.post_detail, name='post_detail'),
     path('archive/', views.post_archive),
     re_path(r'^archive/(?P<year>\d{4})/$', views.PostYearArchiveView.as_view(), name='post_archive_year'),

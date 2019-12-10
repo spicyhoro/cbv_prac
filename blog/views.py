@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm
 from django.views.generic import (
-    ListView, DetailView,
+    ListView, DetailView, FormView
     ArchiveIndexView, YearArchiveView, MonthArchiveView,
     WeekArchiveView,DayArchiveView, TodayArchiveView,DateDetailView,
     CreateView, UpdateView, DeleteView,
@@ -57,7 +57,7 @@ from django.views import View
 @method_decorator(login_required, name='dispatch')
 class EditFormView(View):
     model = None
-    form_class =None
+form_class =None
     success_url = None
     template_name = None
 

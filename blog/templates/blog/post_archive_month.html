@@ -1,9 +1,9 @@
 <h3>{{ month|date:"Y년 m월" }}</h3>
 
 {% for date in date_list %}
-    {% url "blog:post_archive_day" date|date:"Y" date|date:"m" date|date:"d" %}
+    <a href="{% url "blog:post_archive_day" date|date:"Y" date|date:"m" date|date:"d" %}">
 
-    {{ date|date:"Y-m-d" }} <!-- ex) 2017-01-01 -->
+    {{ date|date:"Y-m-d" }}
     </a>
 
 
